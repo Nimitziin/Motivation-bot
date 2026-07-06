@@ -1,0 +1,20 @@
+name: Motivation Reminder
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+    - cron: '30 17 * * *'
+  workflow_dispatch:
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Send photo to Telegram
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendPhoto" \
+            -F chat_id="${{ secrets.CHAT_ID }}" \
+            -F photo="@motivation.jpg" \
+            -F caption="💪 This is where you want to be. Stay on track with your nutrition today."
